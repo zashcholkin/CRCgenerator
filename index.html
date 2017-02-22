@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <form action="/generateVHDL" method="get">
+        <select name="polynom-size">
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+        </select>
+
+        <div>
+            <label>1
+                <input type="checkbox" name="0" value="use">
+            </label>
+            <label>X
+                <input type="checkbox" name="1" value="use">
+            </label>
+            <label>X<sup>2</sup>
+                <input type="checkbox" name="2" value="use">
+            </label>
+            <label>X<sup>3</sup>
+                <input type="checkbox" name="3" value="use">
+            </label>
+            <label>X<sup>4</sup>
+                <input type="checkbox" name="4" value="use">
+            </label>
+            <label>X<sup>5</sup>
+                <input type="checkbox" name="5" value="use">
+            </label>
+        </div>
+
+        <input type="submit" value="OK">
+    </form>
+
+
+</body>
+</html>
