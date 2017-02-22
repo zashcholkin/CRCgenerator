@@ -1,23 +1,22 @@
 var  express = require("express");
 var app = express();
+var getVHDLCode = require("./VHDL-generator");
+
+app.use(express.static(__dirname + '/css'));
 
 app.get("/", function (req, res) {
-   //res.type("text/plain");
    res.sendFile(__dirname + "/index.html");
 });
 
-var extentArr = [];
 app.get("/generateVHDL", function(req, res){
-    var extentArr = [];
+    var extentsArr = [];
     for(var extent in req.query){
         if(req.query[extent] == "use"){
-            extentArr.push(extent);
+            extentsArr.push(parseInt(extent));
         }
     }
 
-    res.send(`You need VHDL code for polinom size = ${req.query["polynom-size"]}
-              and polynom extents ${extentArr}
-             `);
+    res.send("<pre>" + getVHDLCode(extentsArr) + "</pre>");
 });
 
 app.listen(3000, function () {
