@@ -3,6 +3,7 @@ var app = express();
 var getVHDLCode = require("./VHDL-generator");
 
 app.use(express.static(__dirname + '/css'));
+app.use(express.static(__dirname + '/libraries'));
 
 app.get("/", function (req, res) {
    res.sendFile(__dirname + "/index.html");
@@ -15,8 +16,8 @@ app.get("/generateVHDL", function(req, res){
             extentsArr.push(parseInt(extent));
         }
     }
-
     res.send("<pre>" + getVHDLCode(extentsArr) + "</pre>");
+
 });
 
 app.listen(3000, function () {

@@ -3,12 +3,13 @@ module.exports = function getVHDLCode (extentsArr) {
     var mostExtent = extentsArr.pop();
 
     //amount of extents without x0 and most extent
+    var extent0Exist;
     if(extentsArr[0]==0){
-        var extent0Exist = true;
+        extent0Exist = true;
         extentsArr.shift();
     }
     else{
-        var extent0Exist = false;
+        extent0Exist = false;
     }
 
     var mediumExtentsAmount = extentsArr.length;

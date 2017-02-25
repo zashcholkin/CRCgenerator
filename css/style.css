@@ -5,3 +5,13 @@ label{
 input{
     margin-left: 0;
 }
+
+#VHDL-destination{
+    border-top: solid 1px;
+    margin-top: 10px;
+}
+
+#polynom-render-div{
+    background-color: floralwhite;
+    text-align: center;
+}

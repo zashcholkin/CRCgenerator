@@ -3,41 +3,104 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <script src="jquery-3.1.1.min.js"></script>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <form action="/generateVHDL" method="get">
-        <select name="polynom-size">
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-            <option value="5">5</option>
-        </select>
+    <form id="polynom-form" action="/generateVHDL" method="get">
 
-        <div>
-            <label>X<sup>0</sup>
-                <input type="checkbox" name="0" value="use">
-            </label>
-            <label>X<sup>1</sup>
-                <input type="checkbox" name="1" value="use">
-            </label>
-            <label>X<sup>2</sup>
-                <input type="checkbox" name="2" value="use">
-            </label>
-            <label>X<sup>3</sup>
-                <input type="checkbox" name="3" value="use">
-            </label>
-            <label>X<sup>4</sup>
-                <input type="checkbox" name="4" value="use">
-            </label>
-            <label>X<sup>5</sup>
-                <input type="checkbox" name="5" value="use">
-            </label>
-        </div>
+        <div id="extents-div"></div>
+
+        <select id="well-known-polynoms-select">
+            <option data-polynom=""></option>
+            <option data-polynom="0,1">CRC-1</option>
+            <option data-polynom="0,1,4">CRC-4-ITU</option>
+            <option data-polynom="0,3,5">CRC-5-EPC</option>
+            <option data-polynom="0,2,4,5">CRC-5-ITU</option>
+            <option data-polynom="0,2,5">CRC-5-USB</option>
+            <option data-polynom="0,1,6">CRC-6-ITU</option>
+            <option data-polynom="0,3,7">CRC-7</option>
+            <option data-polynom="0,1,2,8">CRC-8-CCITT</option>
+            <option data-polynom="0,4,5,8">CRC-8-Dallas/Maxim</option>
+            <option data-polynom="0,2,4,6,7,8">CRC-8</option>
+        </select>
 
         <input type="submit" value="OK">
     </form>
 
+    <div id="polynom-render-div"></div>
+
+    <div id="VHDL-destination"></div>
+
+<script>
+    const EXTENTS_AMOUNT = 64;
+
+    //create checkboxes for extents
+    var extentsDiv = $("#extents-div");
+    for (var i = 0; i < EXTENTS_AMOUNT; i++) {
+        extentsDiv.append(`<label>X<sup>${i}</sup>
+                <input type="checkbox" name="${i}" value="use">
+            </label>`);
+    }
+
+    //make ajax request to the server
+    $("#polynom-form").on("submit", function (event) {
+        event.preventDefault();
+       $.ajax({
+           url: $(this).attr("action"),
+           type: "get",
+           data: $(this).serialize(),
+           success: function (data) {
+               $("#VHDL-destination").html(data);
+           },
+           error: function () {
+               $("#VHDL-destination").text("VHDL code was not received from the server. Try to get VHDL code again");
+           }
+       });
+    });
+
+    //polynom render
+    $("#extents-div").on("change", function (event) {
+        var extentsCheckboxesArr = $("#extents-div input[type='checkbox']");
+        var checkedExtentsArr = [];
+
+        for (var i = 0; i < extentsCheckboxesArr.length; i++) {
+            if($(extentsCheckboxesArr[i]).prop("checked")){
+                var checkedExtent = $(extentsCheckboxesArr[i]).attr("name");
+                checkedExtentsArr.push(checkedExtent==0 ? 1 : `X<sup>${checkedExtent}</sup>`);
+            }
+        }
+
+        $("#polynom-render-div").html(checkedExtentsArr.reverse().join("&nbsp+&nbsp"));
+    });
+
+
+    //set extents checkboxes after change well-known polynom
+    $("#well-known-polynoms-select").on("change", function () {
+        var extentsList = ($("#well-known-polynoms-select option:selected").attr("data-polynom"));
+
+        setExtentsCheckboxes(extentsList);
+    });
+
+    function setExtentsCheckboxes(extentsList) {
+        if(extentsList == undefined){
+            return;
+        }
+
+        var extentsArr = extentsList.split(",");
+
+        //unchecked all extents checkboxes
+        $("#extents-div input[type='checkbox']").prop("checked", false);
+
+        //checked checkboxes from extentsList
+        for (var i = 0; i < extentsArr.length; i++) {
+            $(`#extents-div input[type='checkbox'][name='${extentsArr[i]}']`).prop("checked", true)
+        }
+
+        $("#extents-div").trigger("change");
+    }
+
+</script>
 
 </body>
 </html>
