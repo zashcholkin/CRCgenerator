@@ -15,3 +15,7 @@ input{
     background-color: floralwhite;
     text-align: center;
 }
+
+.VHDL-link{
+    display: block;
+}
