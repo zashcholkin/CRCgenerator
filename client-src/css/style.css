@@ -19,3 +19,7 @@ input{
 .VHDL-link{
     display: block;
 }
+
+#VHDL-CRC-links{
+    display: none;
+}

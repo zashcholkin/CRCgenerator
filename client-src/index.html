@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <script src="jquery-3.1.1.min.js"></script>
-    <link rel="stylesheet" href="style.css">
+    <script defer src="/public/bundle.js"></script>
+    <link rel="stylesheet" href="/public/css/style.css">
 </head>
 <body>
     <form id="polynom-form" action="/generateVHDL" method="get">
@@ -34,25 +34,28 @@
     <div id="polynom-render-div"></div>
 
     <div id="VHDL-destination"></div>
-    <div id="VHDL-CRC-link">
+    <div id="VHDL-CRC-links">
         <a href="CRC.vhd" download class="VHDL-link">Download Main CRC VHDL Code</a>
         <a href="DFF.vhd" download class="VHDL-link">Download D Flip-Flop VHDL Code</a>
         <a href="XOR2.vhd" download class="VHDL-link">Download XOR VHDL Code</a>
     </div>
 
 <script>
-    const EXTENTS_AMOUNT = 64;
-    $("#VHDL-CRC-link").hide();
+    //const EXTENTS_AMOUNT = 64;
+    //$("#VHDL-CRC-link").hide();
 
     //create checkboxes for extents
+    /*
     var extentsDiv = $("#extents-div");
     for (var i = 0; i < EXTENTS_AMOUNT; i++) {
         extentsDiv.append(`<label>X<sup>${i}</sup>
                 <input type="checkbox" name="${i}" value="use">
             </label>`);
     }
+    */
 
     //make ajax request to the server
+    /*
     $("#polynom-form").on("submit", function (event) {
         event.preventDefault();
        $.ajax({
@@ -68,8 +71,10 @@
            }
        });
     });
+    */
 
     //polynom render
+    /*
     $("#extents-div").on("change", function (event) {
         var extentsCheckboxesArr = $("#extents-div input[type='checkbox']");
         var checkedExtentsArr = [];
@@ -83,9 +88,10 @@
 
         $("#polynom-render-div").html(checkedExtentsArr.reverse().join("&nbsp+&nbsp"));
     });
-
+    */
 
     //set extents checkboxes after change well-known polynom
+    /*
     $("#well-known-polynoms-select").on("change", function () {
         var extentsList = ($("#well-known-polynoms-select option:selected").attr("data-polynom"));
 
@@ -109,6 +115,7 @@
 
         $("#extents-div").trigger("change");
     }
+    */
 
 </script>
 

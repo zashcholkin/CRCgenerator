@@ -1,14 +1,13 @@
 var  express = require("express");
 var fs = require("fs");
 var app = express();
-var getVHDLCode = require("./VHDL-generator");
+var getVHDLCode = require("./server/VHDL-generator");
 
 app.use(express.static(__dirname + '/css'));
-app.use(express.static(__dirname + '/libraries'));
-app.use(express.static(__dirname + '/public'));
+app.use("/public", express.static(__dirname + "/client"));
 
 app.get("/", function (req, res) {
-   res.sendFile(__dirname + "/index.html");
+   res.sendFile(__dirname + "/client/index.html");
 });
 
 app.get("/generateVHDL", function(req, res){
