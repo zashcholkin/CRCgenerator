@@ -3,7 +3,6 @@ var fs = require("fs");
 var app = express();
 var getVHDLCode = require("./server/VHDL-generator");
 
-app.use(express.static(__dirname + '/css'));
 app.use("/public", express.static(__dirname + "/client"));
 
 app.get("/", function (req, res) {
@@ -20,13 +19,12 @@ app.get("/generateVHDL", function(req, res){
 
     var VHDLCodeCRC = getVHDLCode(extentsArr);
 
-    fs.writeFile('./public/CRC.vhd', VHDLCodeCRC, function (err) {
+    fs.writeFile('./result/CRC.vhd', VHDLCodeCRC, function (err) {
         if(err){
             console.log("Write file error")
         }
         res.send("<pre>" + VHDLCodeCRC + "</pre>");
     });
-
 
 });
 
