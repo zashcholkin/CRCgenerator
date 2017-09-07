@@ -4,6 +4,8 @@ var app = express();
 var getVHDLCode = require("./server/VHDL-generator");
 
 app.use("/public", express.static(__dirname + "/client"));
+app.use(express.static(__dirname + "/result"));
+app.use(express.static(__dirname + "/static-VHDL"));
 
 app.get("/", function (req, res) {
    res.sendFile(__dirname + "/client/index.html");
@@ -18,12 +20,17 @@ app.get("/generateVHDL", function(req, res){
     }
 
     var VHDLCodeCRC = getVHDLCode(extentsArr);
+    var filename = `CRC${Date.now()}.vhd`;
 
-    fs.writeFile('./result/CRC.vhd', VHDLCodeCRC, function (err) {
+    fs.writeFile(`./result/${filename}`, VHDLCodeCRC, function (err) {
         if(err){
             console.log("Write file error")
         }
-        res.send("<pre>" + VHDLCodeCRC + "</pre>");
+        var sendObj = {
+            vhdlCode: `<pre>${VHDLCodeCRC}</pre>`,
+            vhdlFile: filename
+        };
+        res.send(sendObj);
     });
 
 });
