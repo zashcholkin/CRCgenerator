@@ -1,5 +1,6 @@
 var  express = require("express");
 var fs = require("fs");
+var md5 = require("md5");
 var app = express();
 var getVHDLCode = require("./server/VHDL-generator");
 
@@ -20,7 +21,7 @@ app.get("/generateVHDL", function(req, res){
     }
 
     var VHDLCodeCRC = getVHDLCode(extentsArr);
-    var filename = `CRC${Date.now()}.vhd`;
+    var filename = `CRC${md5(VHDLCodeCRC)}.vhd`;
 
     fs.writeFile(`./result/${filename}`, VHDLCodeCRC, function (err) {
         if(err){
